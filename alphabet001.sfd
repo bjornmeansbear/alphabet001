@@ -1,0 +1,122 @@
+SplineFontDB: 3.0
+FontName: Untitled1
+FullName: Untitled1
+FamilyName: Untitled1
+Weight: Regular
+Copyright: Copyright (c) 2018, Kristian Bjornard
+UComments: "2018-12-13: Created with FontForge (http://fontforge.org)"
+Version: 001.000
+ItalicAngle: 0
+UnderlinePosition: -100
+UnderlineWidth: 50
+Ascent: 800
+Descent: 200
+InvalidEm: 0
+LayerCount: 2
+Layer: 0 0 "Back" 1
+Layer: 1 0 "Fore" 0
+XUID: [1021 332 -2022019364 9409568]
+OS2Version: 0
+OS2_WeightWidthSlopeOnly: 0
+OS2_UseTypoMetrics: 1
+CreationTime: 1544735388
+ModificationTime: 1544739393
+OS2TypoAscent: 0
+OS2TypoAOffset: 1
+OS2TypoDescent: 0
+OS2TypoDOffset: 1
+OS2TypoLinegap: 0
+OS2WinAscent: 0
+OS2WinAOffset: 1
+OS2WinDescent: 0
+OS2WinDOffset: 1
+HheadAscent: 0
+HheadAOffset: 1
+HheadDescent: 0
+HheadDOffset: 1
+OS2Vendor: 'PfEd'
+DEI: 91125
+Encoding: ISO8859-1
+UnicodeInterp: none
+NameList: AGL For New Fonts
+DisplaySize: -48
+AntiAlias: 1
+FitToEm: 0
+WinInfo: 64 16 4
+Grid
+478 1300 m 0
+ 478 -700 l 1024
+EndSplineSet
+BeginChars: 256 3
+
+StartChar: A
+Encoding: 65 65 0
+Width: 1000
+VWidth: 0
+Flags: HO
+LayerCount: 2
+Fore
+SplineSet
+0 1.0751953125 m 1
+ 500.547851562 488.674804688 l 1
+ 1001.66015625 1.0751953125 l 1
+ 991.548828125 -8.7626953125 l 1
+ 827.880859375 150.721679688 664.21484375 303.392578125 500.547851562 467.904296875 c 1
+ 10.6748046875 -8.7626953125 l 1
+ 0 1.0751953125 l 1
+110.106445312 105.48046875 m 1
+ 891.552734375 105.48046875 l 1
+ 891.552734375 91.2705078125 l 1
+ 110.106445312 91.2705078125 l 1
+ 110.106445312 105.48046875 l 1
+EndSplineSet
+EndChar
+
+StartChar: N
+Encoding: 78 78 1
+Width: 1000
+VWidth: 0
+Flags: H
+LayerCount: 2
+Fore
+SplineSet
+9.9892578125 496.171875 m 1
+ 985.01953125 107.783203125 l 1
+ 985.01953125 489.510742188 l 1
+ 1000 489.510742188 l 1
+ 1000 0 l 1
+ 985.01953125 0 l 1
+ 985.01953125 91.6865234375 l 1
+ 14.427734375 478.411132812 l 1
+ 14.427734375 0 l 1
+ 0 0 l 1
+ 0 489.510742188 l 1
+ 0 500 l 1
+ 9.9892578125 496.171875 l 1
+EndSplineSet
+EndChar
+
+StartChar: W
+Encoding: 87 87 2
+Width: 1000
+VWidth: 0
+Flags: H
+LayerCount: 2
+Fore
+SplineSet
+7.2041015625 467.162109375 m 1
+ 7.2041015625 11.099609375 l 1
+ 490.701171875 241.25390625 l 1
+ 494.60546875 239.66015625 l 1
+ 974.760742188 11.099609375 l 1
+ 974.760742188 467.162109375 l 1
+ 989.794921875 467.162109375 l 1
+ 989.794921875 -11.703125 l 1
+ 490.701171875 225.874023438 l 1
+ -7.837890625 -11.703125 l 1
+ -7.837890625 467.162109375 l 1
+ 7.2041015625 467.162109375 l 1
+EndSplineSet
+EndChar
+EndChars
+EndSplineFont
