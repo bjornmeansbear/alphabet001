@@ -1,0 +1,11 @@
+@GDEF_base = [A E K N R W three];
+@GDEF_mark = [];
+@GDEF_ligature = [];
+@GDEF_component = [];
+
+            table GDEF {
+            GlyphClassDef @GDEF_base,
+                          @GDEF_ligature,
+                          @GDEF_mark,
+                          @GDEF_component;
+} GDEF;
