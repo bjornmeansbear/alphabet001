@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glyph name="L" format="2">
 	<unicode hex="004C"/>
-	<advance width="500"/>
+	<advance width="1050"/>
+	<outline>
+		<contour>
+			<point x="42" y="0" type="move"/>
+			<point x="26" y="0" type="line"/>
+			<point x="26" y="511.99999999999994" type="line"/>
+			<point x="42" y="511.99999999999994" type="line" smooth="yes"/>
+			<point x="42" y="0" type="line"/>
+		</contour>
+		<contour>
+			<point x="26" y="0" type="move"/>
+			<point x="26" y="16" type="line"/>
+			<point x="1026" y="16" type="line"/>
+			<point x="1026" y="0.00000000000002842170943040401" type="line" smooth="yes"/>
+			<point x="26" y="0" type="line"/>
+		</contour>
+	</outline>
 </glyph>
