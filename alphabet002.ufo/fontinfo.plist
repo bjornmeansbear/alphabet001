@@ -10,6 +10,15 @@
     <integer>-200</integer>
     <key>familyName</key>
     <string>Alphabet 002</string>
+    <key>guidelines</key>
+    <array>
+      <dict>
+        <key>y</key>
+        <integer>700</integer>
+        <key>name</key>
+        <string>cap height</string>
+      </dict>
+    </array>
     <key>italicAngle</key>
     <real>0.0</real>
     <key>note</key>

@@ -16,6 +16,12 @@
 			<key>x</key>
 			<real>478</real>
 		</dict>
+		<dict>
+			<key>y</key>
+			<integer>710</integer>
+			<key>name</key>
+			<string>cap height</string>
+		</dict>
 	</array>
 	<key>italicAngle</key>
 	<integer>0</integer>
