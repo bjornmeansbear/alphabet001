@@ -2,4 +2,20 @@
 <glyph name="T" format="2">
 	<unicode hex="0054"/>
 	<advance width="500"/>
+	<outline>
+		<contour>
+			<point x="256" y="0" type="move"/>
+			<point x="240" y="0" type="line"/>
+			<point x="240" y="511.99999999999983" type="line"/>
+			<point x="256" y="512" type="line" smooth="yes"/>
+			<point x="256" y="0" type="line"/>
+		</contour>
+		<contour>
+			<point x="-32" y="496" type="move"/>
+			<point x="-32" y="512" type="line"/>
+			<point x="532" y="512" type="line"/>
+			<point x="532.0000000000002" y="496.0000000000001" type="line" smooth="yes"/>
+			<point x="-32" y="496" type="line"/>
+		</contour>
+	</outline>
 </glyph>
