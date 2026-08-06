@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1050"
+   height="1000"
+   viewBox="0 0 277.81249 264.58333"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d, 2026-05-05)"
+   sodipodi:docname="0202605220426GlyphArtboard.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showguides="true"
+     inkscape:zoom="0.1767767"
+     inkscape:cx="523.25902"
+     inkscape:cy="520.43059"
+     inkscape:window-width="1512"
+     inkscape:window-height="893"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1">
+    <sodipodi:guide
+       position="0,52.916665"
+       orientation="0,1"
+       id="guide1"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="101.77623,164.04166"
+       orientation="0,1"
+       id="guide2"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="89.802559,187.85416"
+       orientation="0,1"
+       id="guide3"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="polyline1351"
+       style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:#231f20;stroke-width:1.49848;stroke-miterlimit:10;enable-background:accumulate;stop-color:#000000"
+       d="m 5.692885,77.11026 v 34.57499 L 137.71282,144.31563 5.692885,177.09857 v 34.57109 h 4.495318 v -31.05565 l 129.919027,-32.26056 129.91919,32.26056 v 31.05565 h 4.4953 V 177.09857 L 142.50179,144.31563 274.52172,111.68525 V 77.11026 h -4.4953 v 31.05578 L 140.10723,140.27781 10.188203,108.16604 V 77.11026 Z"
+       sodipodi:nodetypes="ccccccccccccccccccccc" />
+  </g>
+</svg>
