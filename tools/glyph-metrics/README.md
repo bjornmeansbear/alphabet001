@@ -23,6 +23,26 @@ python compare.py --out foo.png   # custom output path
 
 Output: `output/comparison.png` + a table printed to stdout.
 
+## Weight/width sliders
+
+```
+python sliders.py --glyphs a e n o h --weight 0.5 1 1.5 2   # weight sweep
+python sliders.py --glyphs a e n o h --width 0.6 1 1.4      # width sweep
+open output/sliders.png
+```
+
+Real stroke-to-fill geometry (`stroke.py`, `skia.Paint.getFillPath`), not the ribbon approximation `metrics.py` uses for scoring. `--weight` scales `strokeWidth` before stroking; `--width` scales x *after* stroking so round caps/joins stay circular instead of squashing into ellipses.
+
+### Live preview in DrawBot.app
+
+This venv (glyphsLib, skia-python) and DrawBot.app (its own bundled Python) are separate environments — a script using this venv's packages can't run inside the app. To get real Cmd+R live-reload there instead:
+
+```
+python export_skeleton.py                    # writes output/skeleton.json
+```
+
+Then open `preview_drawbot.py` **in DrawBot.app itself** (not the venv) — it reads that JSON and does the stroke-to-fill conversion with DrawBot's own native `BezierPath.expandStroke()`, so it needs nothing from this venv. Edit `WEIGHT` / `WIDTH` / `GLYPHS` at the top of the file and hit Cmd+R. Re-run `export_skeleton.py --glyphs ...` whenever you want a different glyph set or the source `.glyphs` file changes.
+
 ## Known limits
 
 - Ink coverage ignores stroke end-caps and self-joins — it's a ribbon approximation (`length * width`), fine for comparison, not a precise ink-volume figure.
