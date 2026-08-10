@@ -24,7 +24,7 @@ The counter-brief: type for a **pragmatic utopian solarpunk future** — not jus
 The "pragmatic utopian solarpunk" brief above isn't just aesthetic — it maps to a real, if under-theorized, "sustainable type design" discourse. Notes for grounding future work here, roughly strongest to weakest argument:
 
 - **Access** — libre licensing + broad script coverage means fewer typefaces need to be (re)produced at all. This is Dave Crossland's actual argument for Google Fonts/OFL, not ink savings — reuse-over-production is the strongest lever here, and it's a genuine tension with this repo's GPLv3 choice (see License note above).
-- **Automation / reduced design labor** — already this project's approach: skeleton + `strokeWidth` construction interpolates a weight axis "nearly free" instead of hand-drawing N masters. Knuth's **Metafont** (1978) is the direct ancestor — true parametric families via constraint equations, a more general version of what OpenType variable fonts approximate. Worth learning if the sliders should eventually move past "multiply strokeWidth by a factor" toward solving for a target (e.g. a fixed ink budget).
+- **Automation / reduced design labor** — already this project's approach: skeleton + `strokeWidth` construction interpolates a weight axis "nearly free" instead of hand-drawing N masters. Knuth's **Metafont** (1978) is the direct ancestor — true parametric families via constraint equations, a more general version of what OpenType variable fonts approximate. `tools/glyph-metrics/preview_drawbot.py` is this project's small, concrete instance of the idea: the typeface exposed as inputs (`WEIGHT`, `WIDTH`) you play with directly and watch redraw, rather than only fixed finished drawings. Worth learning more Metafont if the sliders should eventually move past "multiply strokeWidth by a factor" toward solving for a target (e.g. a fixed ink budget).
 - **Ink** — the `ink_coverage_pct` metric already in `tools/glyph-metrics/`. Real precedent: **Ryman Eco** (Dan Rhatigan/Monotype + Grey London, ~33% less ink via perforated counters) — the same move as the queued perforation slider. Caution: **Ecofont**'s marketed ink savings were found smaller in practice once real printer behavior is accounted for — measure the real thing, not a marketing-friendly proxy.
 - **Data** — file size, queued but not started. Variable fonts are a *conditional* win: one file beats N static weights only if a page actually uses multiple weights; a single-weight page is still better served by a subsetted static font.
 - **Energy** — under-discussed in the literature searched so far: on OLED, brighter pixels cost more power, so a lighter stroke saves battery in dark mode but saves ink (opposite mechanism) in light-mode print. Same instinct, opposite physics depending on where it renders.
@@ -39,20 +39,22 @@ The "pragmatic utopian solarpunk" brief above isn't just aesthetic — it maps t
 - [ATypI: Can Type Tools and Community Projects Be Sustainable?](https://atypi.org/presentation/can-type-tools-and-community-projects-be-sustainable/)
 
 ## tools/glyph-metrics/
-Python tool (`compare.py` + `metrics.py`) that loads `Alphabet001.glyphs` directly via `glyphsLib` and scores default vs. `.alt` glyph pairs on:
-- **ink coverage** — filled area as % of em (stroked paths approximated as `arc_length * strokeWidth`)
-- **density** — advance width
-- **complexity** — node count, curve-to-line segment ratio (rough organic-vs-mechanical proxy)
+Python tool that loads `Alphabet001.glyphs` directly via `glyphsLib`. Two parts:
+- **`compare.py` + `metrics.py`** — scores default vs. `.alt` glyph pairs on ink coverage (filled area as % of em, stroked paths approximated as `arc_length * strokeWidth`), density (advance width), and construction complexity (node count, curve-to-line ratio as an organic-vs-mechanical proxy). Renders `output/comparison.png` plus a terminal ranking table.
+- **`stroke.py` + `sliders.py`** — real stroke-to-fill geometry (`skia.Paint.getFillPath`, not the ribbon approximation) driving weight (`strokeWidth` multiplier) and width (x-scale, applied after stroking so caps stay round) sliders. `python sliders.py --glyphs a e n o h --weight 0.5 1 1.5 2` renders a sweep to `output/`.
+- **`export_skeleton.py` + `preview_drawbot.py`** — live Cmd+R preview inside DrawBot.app itself (see DrawBot section below), since that app's bundled Python can't see this venv.
 
-Renders a side-by-side specimen (`output/comparison.png`) plus a terminal ranking table. Setup/usage in `tools/glyph-metrics/README.md`. Built to make the solarpunk brief testable rather than just eyeballed.
+Setup/usage in `tools/glyph-metrics/README.md`. Built to make the solarpunk brief testable rather than just eyeballed.
 
-## Queued next step (not started)
-Turn the metrics into generative sliders instead of just comparing hand-drawn variants:
-- **weight/ink slider** — scale `strokeWidth` on the skeleton (trivial given the construction method)
-- **width/condensation slider** ("more letters per line") — scale skeleton x-coordinates / advance width
-- **texture/perforation** — Ecofont-style holes punched into the stroke fill for further ink reduction without much legibility cost
+**Real finding from using it:** default `n` and `h` aren't finished letterforms — they render as a straight-line zigzag, not an arch. `n.alt`/`h.alt` are the actual finished letters (curve ratio 0.00→0.40 for only +0.11/+0.15pp ink). Worth promoting those alts to default before drawing much more around them.
 
-These two sliders map directly to standard OpenType variable axes: weight/ink → `wght`, width/condensation → `wdth` — so this is a path toward an actual variable font, not a bespoke system. Technical approach already validated: `skia.Paint.getFillPath` (via the `drawbot-skia` dependency already in `tools/glyph-metrics/requirements.txt`) does real stroke-to-fill conversion, replacing the current ribbon-approximation ink math with exact geometry, and is the prerequisite for the perforation idea (`BezierPath.difference` for the boolean subtraction, already available in the same dependency).
+**Free vs. costly organic upgrades**, from the ink/curve-ratio numbers: `a.alt` and `two.alt` get curvier while using *less* ink (no tradeoff — the strong version of "pragmatic utopian," material and formal pointing the same way). `A.alt`, `e.alt`, `seven.alt` get curvier but cost real ink (+0.70, +0.30, +6.51pp) — better kept as an opt-in expressive/display alternate (`ss01`/`salt`) than promoted to default.
+
+## Queued next step
+Weight and width sliders are built (above). Not started yet:
+- **texture/perforation** — Ecofont-style holes punched into the stroke fill for further ink reduction without much legibility cost. `BezierPath.difference` (boolean subtraction) is the mechanism, available in the same `drawbot-skia` dependency already used by `stroke.py`.
+
+Weight/width map directly to standard OpenType variable axes (`wght`, `wdth`) — so this is a path toward an actual variable font, not a bespoke system.
 
 ## Adjacent tools (not part of this repo, don't build into them directly)
 - `~/Code/img2bez` — Eli Heuer's Rust tool, bitmap→UFO glyph tracer (`kurbo`/`norad`), has an autoresearch loop scoring traced fidelity via IoU.
@@ -60,4 +62,4 @@ These two sliders map directly to standard OpenType variable axes: weight/ink �
 - `~/Code/runebender-comfy` — Eli Heuer's newer, in-progress ComfyUI-based node pipeline for font editing/compilation. Actively being developed by Eli — deliberately not the place to build; this project's tooling should stay narrow and personal rather than extending someone else's in-progress work.
 
 ## DrawBot
-Downloaded (native macOS app, not just the `drawbot-skia` package used in `glyph-metrics`) for fast interactive sketching — Cmd+R live-reload loop, good for trying slider ideas visually before formalizing into scripts.
+Native macOS app (not just the `drawbot-skia` package used in `glyph-metrics`) — separate bundled Python, no access to the venv's `glyphsLib`/`skia-python`. Used for fast interactive sketching via its Cmd+R live-reload loop. `tools/glyph-metrics/preview_drawbot.py` is the concrete bridge: `export_skeleton.py` (venv) writes skeleton geometry to JSON, then this script (opened in DrawBot.app itself) reads it and does stroke-to-fill with DrawBot's own native `BezierPath.expandStroke()` — the typeface exposed as `WEIGHT`/`WIDTH` inputs you edit and watch redraw, rather than only fixed finished drawings.
