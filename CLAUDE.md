@@ -3,9 +3,17 @@
 ## What this is
 A wide, extended, near-monospace monoline typeface with clever ligatures (see `README.md`). Drawn as skeleton paths in Glyphs 3, with a per-path `strokeWidth` attribute (currently 20) doing the stroke-to-outline work rather than hand-drawn filled contours.
 
-**Source of truth:** `Alphabet001.glyphs` (108 glyphs — full upper/lowercase, digits, punctuation, several `.alt` alternates: A, I, J, O, T, a, e, five, h, n, seven, two). No kerning, no OpenType features yet, no compiled binary yet. The two `.ufo` files in this repo are older/partial and mostly superseded by the `.glyphs` source.
+**Source of truth:** `Alphabet001.glyphs` (108 glyphs — full upper/lowercase, digits, punctuation, several `.alt` alternates: A, I, J, O, T, a, e, five, h, n, seven, two). No kerning, no OpenType features yet, no compiled binary yet. The `.ufo`/`.sfd` files in `archive/legacy-sources/` are older/partial and superseded by the `.glyphs` source — kept for history, not for editing.
 
 **License note:** repo is GPLv3, unusual for a font project (most use SIL OFL, built specifically for font-embedding ambiguity) — worth a deliberate look if wide distribution is a goal.
+
+## Repo layout
+- `Alphabet001.glyphs` — source of truth (see above).
+- `tools/` — this project's own tooling (`glyph-metrics/`; sliders queued next, see below).
+- `archive/legacy-sources/` — superseded `.sfd`/`.ufo` font sources, kept for history.
+- `archive/sketches/` — dated SVG/PNG specimen exports from earlier passes, no longer authoritative.
+- `reference/` — inspiration/reference material that isn't this font's source (`letterformtemplate.ai`, `TYPESTRETCH_ForKristan.ai`).
+- `housenumbers/` — a separate, unrelated vinyl-cutter house-numbers project that happens to live in this repo; not part of the typeface.
 
 ## Conceptual brief
 Designer's background is postmodernist/semiotic (Barnbrook, Emigre, David Reinfurt as reference points — form-as-meaning, not neutral formalism). Current typeface direction is inspired by *Typeset in the Future* (Dave Addey) — a critique of Hollywood sci-fi's narrow reliance on cold geometric sans-serifs (Eurostile and kin) as shorthand for "the future," which really reads as institutional/mechanical control.
