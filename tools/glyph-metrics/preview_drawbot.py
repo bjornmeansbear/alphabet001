@@ -1,5 +1,6 @@
 """Live weight/width preview for alphabet001 -- open THIS file in DrawBot.app
-(not the venv). Edit WEIGHT / WIDTH / GLYPHS below and hit Cmd+R.
+(not the venv). Drag the wght/wdth sliders in the floating window; the
+drawing updates live (no manual Cmd+R needed).
 
 Uses DrawBot's own native BezierPath.expandStroke() for the stroke-to-fill
 conversion, so it needs no skia/glyphsLib -- DrawBot.app's bundled Python
@@ -7,13 +8,23 @@ can't see those (they live in tools/glyph-metrics/.venv, a separate
 environment). Geometry instead comes from output/skeleton.json; regenerate
 it with `python export_skeleton.py` (in the venv) whenever the glyphs it
 covers change, or to cover a different set of glyphs.
+
+wght/wdth are named for the real OpenType axis tags they stand in for
+(see CLAUDE.md's "Queued next step") -- this is a sketch of those two axes,
+not a bespoke naming scheme.
 """
 
 import json
 from pathlib import Path
 
-WEIGHT = 3 # strokeWidth multiplier -- wght-axis analog
-WIDTH = 1.125  # x-scale multiplier, applied after stroking -- wdth-axis analog
+Variable(
+    [
+        dict(name="wght", ui="Slider", args=dict(value=1.0, minValue=0.25, maxValue=3.0)),
+        dict(name="wdth", ui="Slider", args=dict(value=1.0, minValue=0.5, maxValue=1.8)),
+    ],
+    globals(),
+)
+
 GLYPHS = ["a", "a.alt", "e", "n", "n.alt", "o", "h", "h.alt"]
 
 DATA_PATH = Path(__file__).parent / "output" / "skeleton.json"
@@ -67,7 +78,7 @@ for i, name in enumerate(GLYPHS):
     box_y = MARGIN
     scale_factor = CELL / upm
 
-    path = glyph_fill_path(data["glyphs"][name], WEIGHT, WIDTH)
+    path = glyph_fill_path(data["glyphs"][name], wght, wdth)
 
     save()
     translate(box_x, box_y)
@@ -79,4 +90,4 @@ for i, name in enumerate(GLYPHS):
 
     fill(0)
     fontSize(11)
-    text(f"{name}  wght {WEIGHT:g}  wdth {WIDTH:g}", (box_x, box_y + CELL + 4))
+    text(f"{name}  wght {wght:g}  wdth {wdth:g}", (box_x, box_y + CELL + 4))

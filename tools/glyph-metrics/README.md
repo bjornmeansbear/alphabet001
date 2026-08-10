@@ -41,7 +41,7 @@ This venv (glyphsLib, skia-python) and DrawBot.app (its own bundled Python) are 
 python export_skeleton.py                    # writes output/skeleton.json
 ```
 
-Then open `preview_drawbot.py` **in DrawBot.app itself** (not the venv) — it reads that JSON and does the stroke-to-fill conversion with DrawBot's own native `BezierPath.expandStroke()`, so it needs nothing from this venv. Edit `WEIGHT` / `WIDTH` / `GLYPHS` at the top of the file and hit Cmd+R. Re-run `export_skeleton.py --glyphs ...` whenever you want a different glyph set or the source `.glyphs` file changes.
+Then open `preview_drawbot.py` **in DrawBot.app itself** (not the venv) — it reads that JSON and does the stroke-to-fill conversion with DrawBot's own native `BezierPath.expandStroke()`, so it needs nothing from this venv. Hit Cmd+R once; a floating window with `wght`/`wdth` sliders appears and the drawing updates live as you drag them (DrawBot's built-in `Variable()` UI). Edit the `GLYPHS` list in the file to change which letters show, and re-run `export_skeleton.py --glyphs ...` whenever you want a different glyph set or the source `.glyphs` file changes.
 
 ## Known limits
 
