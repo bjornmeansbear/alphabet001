@@ -31,7 +31,7 @@ python sliders.py --glyphs a e n o h --width 0.6 1 1.4      # width sweep
 open output/sliders.png
 ```
 
-Real stroke-to-fill geometry (`stroke.py`, `skia.Paint.getFillPath`), not the ribbon approximation `metrics.py` uses for scoring. `--weight` scales `strokeWidth` before stroking; `--width` scales x *after* stroking so round caps/joins stay circular instead of squashing into ellipses.
+Real stroke-to-fill geometry (`stroke.py`, `skia.Paint.getFillPath`), not the ribbon approximation `metrics.py` uses for scoring. `--weight` scales `strokeWidth` before stroking; `--width` scales x *after* stroking so round caps/joins stay circular instead of squashing into ellipses. Each cell also shows exact ink coverage (% of em) and its delta from the `wght 1 / wdth 1` baseline — provably exact-invariant to `--width` (a post-stroke x-only scale changes ink area and advance width by the same factor), so only `--weight` moves it. The live DrawBot preview shows the same number as an approximation (no skia there to compute it exactly).
 
 ### Live preview in DrawBot.app
 

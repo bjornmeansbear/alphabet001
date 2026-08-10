@@ -19,12 +19,13 @@ from pathlib import Path
 
 from compare import load
 from metrics import contour_recordings, path_stroke_widths
+from stroke import glyph_ink_coverage_pct
 
 DEFAULT_SOURCE = Path(__file__).resolve().parents[2] / "Alphabet001.glyphs"
 DEFAULT_GLYPHS = ["a", "a.alt", "e", "n", "n.alt", "o", "h", "h.alt", "two", "two.alt"]
 
 
-def glyph_to_json(ufo_glyph, gs_layer):
+def glyph_to_json(ufo_glyph, gs_layer, upm):
     recordings = contour_recordings(ufo_glyph)
     stroke_widths = path_stroke_widths(gs_layer)
     if len(stroke_widths) != len(recordings):
@@ -35,7 +36,13 @@ def glyph_to_json(ufo_glyph, gs_layer):
         ops = [[op, [list(pt) for pt in args]] for op, args in recording]
         contours.append({"stroke_width": stroke_width, "ops": ops})
 
-    return {"advance_width": ufo_glyph.width, "contours": contours}
+    # Baseline ink coverage at wght=1/wdth=1, exact (via skia -- see stroke.py).
+    # preview_drawbot.py has no skia, so it scales this live as an
+    # approximation (ink is linear-ish in wght but not exactly, because
+    # round cap/join area is a small quadratic term in strokeWidth).
+    base_ink_pct = glyph_ink_coverage_pct(ufo_glyph, gs_layer, upm, weight=1.0, width=1.0)
+
+    return {"advance_width": ufo_glyph.width, "base_ink_pct": base_ink_pct, "contours": contours}
 
 
 def main():
@@ -57,7 +64,7 @@ def main():
 
     data = {
         "upm": upm,
-        "glyphs": {name: glyph_to_json(ufo[name], font.glyphs[name].layers[0]) for name in args.glyphs},
+        "glyphs": {name: glyph_to_json(ufo[name], font.glyphs[name].layers[0], upm) for name in args.glyphs},
     }
 
     args.out.parent.mkdir(parents=True, exist_ok=True)

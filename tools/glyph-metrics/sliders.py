@@ -17,7 +17,7 @@ from pathlib import Path
 from drawbot_skia.drawbot import Drawing
 
 from compare import load
-from stroke import glyph_fill_path
+from stroke import glyph_fill_path, path_area
 
 DEFAULT_SOURCE = Path(__file__).resolve().parents[2] / "Alphabet001.glyphs"
 CELL = 260
@@ -50,10 +50,19 @@ def render_grid(font, ufo, upm, glyph_names, weights, widths, out_path):
     for row, name in enumerate(glyph_names):
         gs_layer = font.glyphs[name].layers[0]
         row_top = page_h - MARGIN - LABEL_H - row * cell_h
+
+        base_path, base_advance = glyph_fill_path(ufo[name], gs_layer, weight=1.0, width=1.0)
+        base_ink_pct = path_area(base_path) / (base_advance * upm) * 100 if base_advance else 0.0
+
         for col, (weight, width) in enumerate(combos):
             path, advance = glyph_fill_path(ufo[name], gs_layer, weight=weight, width=width)
             box_x = MARGIN + col * cell_w
             box_y = row_top - cell_h
+
+            # ink % of em -- exactly invariant to `width` by construction (a
+            # post-stroke x-only scale changes area and advance_width by the
+            # same factor, so they cancel), so only `weight` moves this.
+            ink_pct = path_area(path) / (advance * upm) * 100 if advance else 0.0
 
             scale = CELL / upm
             db.fill(0.1, 0.35, 0.15, 1)
@@ -66,6 +75,10 @@ def render_grid(font, ufo, upm, glyph_names, weights, widths, out_path):
 
                 bez = BezierPath(path=path)
                 db.drawPath(bez)
+
+            db.fill(0.4, 0.1, 0.1, 1)
+            db.fontSize(9)
+            db.text(f"ink {ink_pct:.2f}%  ({ink_pct - base_ink_pct:+.2f}pp)", (box_x + 8, box_y + 4))
 
         db.fill(0, 0, 0, 1)
         db.fontSize(11)

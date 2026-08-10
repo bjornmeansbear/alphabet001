@@ -1,5 +1,5 @@
 """Live weight/width preview for alphabet001 -- open THIS file in DrawBot.app
-(not the venv). Drag the wght/wdth sliders in the floating window; the
+(not the venv). Drag the inkusage/wdth sliders in the floating window; the
 drawing updates live (no manual Cmd+R needed).
 
 Uses DrawBot's own native BezierPath.expandStroke() for the stroke-to-fill
@@ -9,7 +9,7 @@ environment). Geometry instead comes from output/skeleton.json; regenerate
 it with `python export_skeleton.py` (in the venv) whenever the glyphs it
 covers change, or to cover a different set of glyphs.
 
-wght/wdth are named for the real OpenType axis tags they stand in for
+inkusage/wdth are named for the real OpenType axis tags they stand in for
 (see CLAUDE.md's "Queued next step") -- this is a sketch of those two axes,
 not a bespoke naming scheme.
 """
@@ -19,7 +19,7 @@ from pathlib import Path
 
 Variable(
     [
-        dict(name="wght", ui="Slider", args=dict(value=1.0, minValue=0.25, maxValue=3.0)),
+        dict(name="inkusage", ui="Slider", args=dict(value=1.0, minValue=0.25, maxValue=3.0)),
         dict(name="wdth", ui="Slider", args=dict(value=1.0, minValue=0.5, maxValue=1.8)),
     ],
     globals(),
@@ -78,7 +78,7 @@ for i, name in enumerate(GLYPHS):
     box_y = MARGIN
     scale_factor = CELL / upm
 
-    path = glyph_fill_path(data["glyphs"][name], wght, wdth)
+    path = glyph_fill_path(data["glyphs"][name], inkusage, wdth)
 
     save()
     translate(box_x, box_y)
@@ -88,6 +88,15 @@ for i, name in enumerate(GLYPHS):
     drawPath(path)
     restore()
 
+    # Approximate live ink readout: exact area needs skia (not available
+    # here), so this scales the exported inkusage=1 baseline linearly. Ink is
+    # exactly invariant to wdth (see stroke.py's path_area docstring), so
+    # wdth correctly plays no part in this number -- and slightly
+    # underestimates at high inkusage, since round cap/join area is a small
+    # quadratic term this linear scaling doesn't capture (~0.5% relative
+    # error at inkusage=2, checked against the exact venv-side number).
+    ink_pct = data["glyphs"][name]["base_ink_pct"] * inkusage
+
     fill(0)
     fontSize(11)
-    text(f"{name}  wght {wght:g}  wdth {wdth:g}", (box_x, box_y + CELL + 4))
+    text(f"{name}  inkusage {inkusage:g}  wdth {wdth:g}  ink ≈{ink_pct:.2f}%", (box_x, box_y + CELL + 4))

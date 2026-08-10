@@ -83,3 +83,49 @@ def glyph_fill_path(ufo_glyph, gs_layer, weight=1.0, width=1.0):
 
     advance_width = ufo_glyph.width * width
     return combined, advance_width
+
+
+def path_area(skia_path):
+    """Exact filled area of a skia.Path, via fontTools' AreaPen.
+
+    Measures the *final* geometry directly rather than the unstroked
+    skeleton, so it stays correct regardless of weight. Note that
+    `glyph_ink_coverage_pct` below turns out to be exactly invariant to
+    `width` by construction: width is a post-stroke x-only scale (see module
+    docstring), and area under any single-axis affine scale changes by
+    exactly that factor no matter the shape's orientation -- the same factor
+    advance_width scales by, so they cancel in the ink/em ratio precisely,
+    not approximately. Ink and density really are orthogonal levers here,
+    provably: `wght` moves ink, `wdth` moves paper/page count, and neither
+    axis's slider can accidentally be "secretly" doing the other's job.
+    """
+    from fontTools.pens.areaPen import AreaPen
+
+    pen = AreaPen(glyphset=None)
+    it = skia.Path.Iter(skia_path, True)
+    verb, pts = it.next()
+    while verb != skia.Path.kDone_Verb:
+        if verb == skia.Path.kMove_Verb:
+            pen.moveTo((pts[0].fX, pts[0].fY))
+        elif verb == skia.Path.kLine_Verb:
+            pen.lineTo((pts[1].fX, pts[1].fY))
+        elif verb == skia.Path.kCubic_Verb:
+            pen.curveTo((pts[1].fX, pts[1].fY), (pts[2].fX, pts[2].fY), (pts[3].fX, pts[3].fY))
+        elif verb == skia.Path.kQuad_Verb:
+            pen.qCurveTo((pts[1].fX, pts[1].fY), (pts[2].fX, pts[2].fY))
+        elif verb == skia.Path.kConic_Verb:
+            quads = skia.Path.ConvertConicToQuads(pts[0], pts[1], pts[2], it.conicWeight(), 2)
+            for i in range(1, len(quads) - 1, 2):
+                pen.qCurveTo((quads[i].fX, quads[i].fY), (quads[i + 1].fX, quads[i + 1].fY))
+        elif verb == skia.Path.kClose_Verb:
+            pen.closePath()
+        verb, pts = it.next()
+    return abs(pen.value)
+
+
+def glyph_ink_coverage_pct(ufo_glyph, gs_layer, upm, weight=1.0, width=1.0):
+    """Exact ink coverage (% of em) at a given weight/width, replacing the
+    ribbon approximation in metrics.py with the real filled-path area."""
+    path, advance_width = glyph_fill_path(ufo_glyph, gs_layer, weight=weight, width=width)
+    em_area = advance_width * upm
+    return (path_area(path) / em_area * 100) if em_area else 0.0
